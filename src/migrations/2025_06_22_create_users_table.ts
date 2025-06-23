@@ -3,11 +3,11 @@ import { Knex } from 'knex';
 
 export const up = async (knex: Knex): Promise<void> => {
 	return knex.schema.createTable('users', (table) => {
-		table.uuid('id').primary().defaultTo(knex.raw('gen_random_uuid()'));
-		table.string('firstName').notNullable().checkLength('>=', 2).checkLength('<=', 50);
-		table.string('lastName').notNullable().checkLength('>=', 2).checkLength('<=', 50);
+		table.uuid('id').primary().defaultTo(knex.raw('(UUID())'));
+		table.string('firstName').notNullable();
+		table.string('lastName').notNullable();
 		table.string('username').notNullable().unique();
-		table.string('phoneNumber').notNullable().unique().checkLength('>=', 10);
+		table.string('phoneNumber').notNullable().unique();
 		table.string('email').notNullable().unique();
 		table.string('password').notNullable();
 		table.enu('role', Object.values(Role)).defaultTo(Role.User);

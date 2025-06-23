@@ -48,6 +48,7 @@ const toJSON = <T extends object>(obj: T | T[], excludeFields: (keyof T)[] = [])
 		'loginRetries',
 		'lastLogin',
 		'password',
+		'isDeleted',
 		'updated_at',
 	] as (keyof T)[];
 

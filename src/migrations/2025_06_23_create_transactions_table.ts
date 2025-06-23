@@ -3,9 +3,9 @@ import { TransactionStatus, TransactionType } from '../common/constants';
 
 export const up = async (knex: Knex): Promise<void> => {
 	return knex.schema.createTable('transactions', (table) => {
-		table.uuid('id').primary().defaultTo(knex.raw('gen_random_uuid()'));
-		table.uuid('senderId').notNullable().references('id').inTable('users').onDelete('SET NULL');
-		table.uuid('receiverId').notNullable().references('id').inTable('users').onDelete('SET NULL');
+		table.uuid('id').primary().defaultTo(knex.raw('(UUID())'));
+		table.uuid('senderId').notNullable().references('id').inTable('users').onDelete('RESTRICT');
+		table.uuid('receiverId').notNullable().references('id').inTable('users').onDelete('RESTRICT');
 		table.string('walletAddress').nullable();
 		table.decimal('amount', 14, 2).notNullable();
 		table.enum('transactionType', Object.values(TransactionType)).notNullable();

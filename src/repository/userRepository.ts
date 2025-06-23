@@ -18,6 +18,14 @@ class UserRepository {
 		return await knexDb.table('users').where({ email }).first();
 	};
 
+	findByEmailOrUsernameOrPhone = async (
+		email: string,
+		username: string,
+		phoneNumber: string
+	): Promise<IUser | null> => {
+		return await knexDb.table('users').where({ email }).orWhere({ username }).orWhere({ phoneNumber }).first();
+	};
+
 	update = async (id: string, payload: Partial<IUser>) => {
 		return await knexDb.table('users').where({ id }).update(payload);
 	};

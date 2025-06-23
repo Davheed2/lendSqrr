@@ -2,20 +2,20 @@ import knex, { Knex } from 'knex';
 import { ENVIRONMENT } from './environment';
 
 export const knexConfig: Knex.Config = {
-	client: 'pg',
+	client: 'mysql2',
 	connection: {
 		host: ENVIRONMENT.DB.HOST,
 		user: ENVIRONMENT.DB.USER,
 		password: ENVIRONMENT.DB.PASSWORD,
 		database: ENVIRONMENT.DB.DATABASE,
-		port: ENVIRONMENT.DB.PORT ? parseInt(ENVIRONMENT.DB.PORT, 10) : 5432,
+		port: ENVIRONMENT.DB.PORT ? parseInt(ENVIRONMENT.DB.PORT, 10) : 3306,
 		//ssl: ENVIRONMENT.DB.SSL ? { rejectUnauthorized: false } : false,
 		...(ENVIRONMENT.APP.ENV === 'production' ? { ssl: { rejectUnauthorized: true } } : {}),
 	},
 	pool: { min: 1, max: 5, idleTimeoutMillis: 600000, propagateCreateError: false },
 	migrations: {
 		tableName: 'knex_migrations',
-		directory: process.env.NODE_ENV === 'production' ? './migrations' : './src/migrations',
+		directory: process.env.NODE_ENV === 'production' ? './migrations' : './migrations',
 		extension: process.env.NODE_ENV === 'production' ? 'js' : 'ts',
 	},
 	acquireConnectionTimeout: 5000,
