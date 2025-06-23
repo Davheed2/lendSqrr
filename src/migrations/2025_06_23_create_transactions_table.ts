@@ -12,10 +12,6 @@ export const up = async (knex: Knex): Promise<void> => {
 		table.enum('status', Object.values(TransactionStatus)).defaultTo(TransactionStatus.PENDING);
 		table.string('reference').unique().notNullable();
 		table.timestamps(true, true);
-
-		// Foreign keys
-		table.foreign('senderId').references('id').inTable('users').onDelete('CASCADE');
-		table.foreign('receiverId').references('id').inTable('users').onDelete('CASCADE');
 	});
 };
 

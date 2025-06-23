@@ -1,4 +1,4 @@
-import { Role } from '@/common/constants';
+import { Role } from '../common/constants';
 import { Knex } from 'knex';
 
 export const up = async (knex: Knex): Promise<void> => {
