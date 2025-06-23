@@ -15,7 +15,7 @@ import '@/common/interfaces/request';
 import { logger, stream } from '@/common/utils';
 import { errorHandler } from '@/controllers';
 import { timeoutMiddleware, validateDataWithZod } from '@/middlewares';
-import { authRouter } from '@/routes';
+import { authRouter, userRouter, walletRouter } from '@/routes';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -148,7 +148,8 @@ app.use('/api/v1/alive', (req, res) =>
 );
 
 app.use('/api/v1/auth', authRouter);
-// app.use('/api/v1/user', userRouter);
+app.use('/api/v1/user', userRouter);
+app.use('/api/v1/wallet', walletRouter);
 
 app.all('/*', async (req, res) => {
 	logger.error('route not found ' + new Date(Date.now()) + ' ' + req.originalUrl);

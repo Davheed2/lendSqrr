@@ -1,6 +1,5 @@
 import { knexDb } from '@/common/config';
 import { IWallet } from '@/common/interfaces';
-import { transactionRepository } from './transactionRepository';
 import { AppError, generateUniqueTransactionReference } from '@/common/utils';
 
 class WalletRepository {
@@ -28,6 +27,10 @@ class WalletRepository {
 		return await knexDb.table('wallets').where({ id }).del();
 	};
 
+	getBalance = async (userId: string): Promise<IWallet> => {
+		return await knexDb.table('wallets').where({ userId }).first();
+	};
+
 	fundWallet = async (userId: string, validatedAmount: number) => {
 		return knexDb.transaction(async (trx) => {
 			const user = await trx('users').where({ id: userId }).first();
@@ -45,16 +48,23 @@ class WalletRepository {
 
 			await trx('wallets').where({ id: wallet.id }).update({ balance: newBalance });
 
-			await trx.commit();
-
-			await transactionRepository.create({
+			const reference = generateUniqueTransactionReference();
+			await trx('transactions').insert({
 				senderId: userId,
 				receiverId: userId,
 				amount: validatedAmount,
 				transactionType: 'deposit',
 				status: 'completed',
-				reference: generateUniqueTransactionReference(),
+				walletAddress: wallet.walletAddress,
+				reference,
 			});
+
+			const transaction = await trx('transactions').where({ reference }).first();
+			if (!transaction) {
+				throw new AppError('Transaction creation failed', 500);
+			}
+
+			return transaction;
 		});
 	};
 
@@ -69,7 +79,7 @@ class WalletRepository {
 				throw new AppError('Wallet not found for the sender');
 			}
 
-			const receiver = await trx('users').where({ walletAddress }).first();
+			const receiver = await trx('wallets').where({ walletAddress }).first();
 			if (!receiver) {
 				throw new AppError('User with wallet address not found', 404);
 			}
@@ -90,41 +100,57 @@ class WalletRepository {
 				.where({ walletAddress })
 				.update({ balance: receiverBalance + validatedAmount });
 
-			await trx.commit();
-
-			await transactionRepository.create({
+			const reference = generateUniqueTransactionReference();
+			await trx('transactions').insert({
 				senderId: senderId,
-				receiverId: receiver.id,
-				walletAddress: walletAddress,
+				receiverId: receiver.userId,
+				walletAddress,
 				amount: validatedAmount,
 				transactionType: 'transfer',
 				status: 'completed',
-				reference: generateUniqueTransactionReference(),
+				reference,
 			});
+
+			const transaction = await trx('transactions').where({ reference }).first();
+			if (!transaction) {
+				throw new AppError('Transaction creation failed', 500);
+			}
+
+			return transaction;
 		});
 	};
 
-	withDrawFromWallet = async (userId: string, balance: number, amount: number) => {
+	withdrawFromWallet = async (userId: string, amount: number) => {
 		return knexDb.transaction(async (trx) => {
 			const wallet = await trx('wallets').where({ userId }).first();
 			if (!wallet) {
 				throw new AppError('Wallet not found for this user');
 			}
+			if (wallet.balance < amount) {
+				throw new AppError('Insufficient funds');
+			}
 
 			await trx('wallets')
 				.where({ id: wallet.id })
-				.update({ balance: balance - amount });
+				.update({ balance: wallet.balance - amount });
 
-			await trx.commit();
-
-			await transactionRepository.create({
+			const reference = generateUniqueTransactionReference();
+			await trx('transactions').insert({
 				senderId: userId,
 				receiverId: userId,
 				amount: amount,
 				transactionType: 'withdraw',
 				status: 'completed',
-				reference: generateUniqueTransactionReference(),
+				walletAddress: wallet.walletAddress,
+				reference,
 			});
+
+			const transaction = await trx('transactions').where({ reference }).first();
+			if (!transaction) {
+				throw new AppError('Transaction creation failed', 500);
+			}
+
+			return transaction;
 		});
 	};
 }

@@ -33,9 +33,9 @@ export const mainSchema = z.object({
 		.string()
 		.min(10, 'Phone number must be at least 10 characters long')
 		.max(15, 'Phone number must not be more than 15 characters long'),
-		// .regex(/^\+?[1-9]\d{1,14}$/, {
-		// 	message: 'Phone number must be a valid international format (e.g., +1234567890)',
-		// }),
+	// .regex(/^\+?[1-9]\d{1,14}$/, {
+	// 	message: 'Phone number must be a valid international format (e.g., +1234567890)',
+	// }),
 	confirmPassword: z
 		.string()
 		.min(8, 'Confirm Password must have at least 8 characters!')
@@ -45,6 +45,8 @@ export const mainSchema = z.object({
 
 	role: z.enum([Role.Guest, Role.SuperUser, Role.User]),
 	userId: z.string().uuid(),
+	amount: z.number().min(1, 'Amount must be greater than zero'),
+	walletAddress: z.string(),
 });
 
 // Define the partial for partial validation
