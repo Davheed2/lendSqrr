@@ -5,7 +5,7 @@ import AppError from './appError';
 import { generateAccessToken, verifyToken } from './helper';
 import { AuthenticateResult } from '../types';
 import { userRepository } from '@/repository';
-//import { checkBlacklistedUser } from '@/api/karma';
+import { checkBlacklistedUser } from '@/api';
 
 export const authenticate = async ({
 	accessToken,
@@ -25,16 +25,13 @@ export const authenticate = async ({
 		if (currentUser.isSuspended) throw new AppError('Your account is currently suspended', 401);
 		if (currentUser.isDeleted) throw new AppError('Your account has been deleted', 404);
 
-		// const identity = currentUser.email;
-		// const isBlacklisted = await checkBlacklistedUser(identity);
+		const identity = currentUser.email;
+		const isBlacklisted = await checkBlacklistedUser(identity);
+		if (isBlacklisted) {
+			await userRepository.update(currentUser.id, { isSuspended: true });
+			throw new AppError('User is blacklisted', 403);
+		}
 
-		// if (isBlacklisted) {
-		// 	userRepository.update(currentUser.id, { isSuspended: true });
-		// 	throw new AppError('User is blacklisted', 403);
-		// }
-
-		// csrf protection
-		// browser client fingerprinting
 		return currentUser;
 	};
 
