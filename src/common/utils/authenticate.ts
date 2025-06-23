@@ -1,11 +1,10 @@
 import { ENVIRONMENT } from '@/common/config';
 import type { IUser } from '@/common/interfaces';
 import jwt from 'jsonwebtoken';
-import { DateTime } from 'luxon';
 import AppError from './appError';
 import { generateAccessToken, verifyToken } from './helper';
 import { AuthenticateResult } from '../types';
-//import { userRepository } from '@/repository/userRepository';
+import { userRepository } from '@/repository';
 //import { checkBlacklistedUser } from '@/api/karma';
 
 export const authenticate = async ({
@@ -25,15 +24,6 @@ export const authenticate = async ({
 		if (!currentUser) throw new AppError('User not found', 404);
 		if (currentUser.isSuspended) throw new AppError('Your account is currently suspended', 401);
 		if (currentUser.isDeleted) throw new AppError('Your account has been deleted', 404);
-		// check if user has changed password after the token was issued
-		// if so, invalidate the token
-		if (
-			currentUser.passwordChangedAt &&
-			DateTime.fromISO(currentUser.passwordChangedAt.toISOString()).toMillis() >
-				DateTime.fromMillis((decoded.iat ?? 0) * 1000).toMillis()
-		) {
-			throw new AppError('Password changed since last login. Please log in again!', 401);
-		}
 
 		// const identity = currentUser.email;
 		// const isBlacklisted = await checkBlacklistedUser(identity);
