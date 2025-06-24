@@ -11,7 +11,17 @@ export const checkBlacklistedUser = async (identity: string): Promise<boolean> =
 			},
 		});
 
-		return response.status === 200;
+		const karmaData = response.data?.data;
+		const isBlacklisted = !!karmaData?.karma_type?.is_blacklisted;
+
+		// console.log('Karma Check Result:', {
+		// 	isBlacklisted,
+		// 	identity: karmaData?.karma_identity,
+		// 	reason: karmaData?.reason,
+		// 	amountInContention: karmaData?.amount_in_contention,
+		// });
+
+		return isBlacklisted;
 	} catch (error) {
 		if (axios.isAxiosError(error) && error.response?.status === 404) {
 			// Not blacklisted

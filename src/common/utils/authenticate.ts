@@ -52,8 +52,8 @@ export const authenticate = async ({
 		if ((error instanceof jwt.JsonWebTokenError || error instanceof jwt.TokenExpiredError) && refreshToken) {
 			try {
 				return await handleTokenRefresh();
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			} catch (refreshError) {
-				console.log('Refresh error:', refreshError);
 				throw new AppError('Session expired, please log in again', 401);
 			}
 		}

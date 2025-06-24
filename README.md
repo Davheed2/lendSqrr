@@ -47,11 +47,229 @@ The Project technologies used:
 
 Use tools like Postman or Insomnia to test the API.
 
-Example endpoints:
+### Authentication Endpoints
 
-- `POST /api/v1/auth/signup`
-- `POST /api/v1/auth/login`
-- `POST /api/v1/wallet/transfer`
+1. **Register a User**
+
+- **Endpoint**: `{{BASE_URL}}/api/v1/auth/sign-up`
+- **Method**: `POST`
+- **Description**: Create a new account.
+- **Request Body**:
+
+```json
+{
+	"email": "string",
+	"password": "string",
+	"firstName": "string",
+	"lastName": "string",
+	"username": "string",
+	"phoneNumber": "string"
+}
+```
+
+- **Response**:
+
+```json
+{
+	"status": "success",
+	"data": [{
+      "id": "string",
+		"email": "string",
+	   "password": "string",
+	   "firstName": "string",
+	   "lastName": "string",
+	   "username": "string",
+	   "phoneNumber": "string",
+      "role": "string",
+      "ipAddress": "string",
+	   "isSuspended": "boolean",
+      "created_at": "timestamp"
+	}]
+	"message": "User created successfully"
+}
+```
+
+2. **Login**
+
+- **Endpoint**: `{{BASE_URL}}/api/v1/auth/sign-in`
+- **Method**: `POST`
+- **Description**: Login to your account.
+- **Request Body**:
+
+```json
+{
+	"email": "string",
+	"password": "string"
+}
+```
+
+- **Response**:
+
+```json
+{
+	"status": "success",
+	"data": [{
+	   "id": "string",
+	   "firstName": "string",
+	   "lastName": "string",
+	   "username": "string",
+	   "phoneNumber": "string",
+	   "email": "string",
+	   "role": "string",
+	   "ipAddress": "string",
+	   "isSuspended": "boolean",
+	   "created_at": "timestamp",
+	}],
+	"message": "Login successful"
+}
+```
+
+3. **Logout**
+
+- **Endpoint**: `{{BASE_URL}}/api/v1/auth/sign-out`
+- **Method**: `POST`
+- **Description**: Log out of your account and invalidate the current session tokens.
+
+- **Response**:
+
+```json
+{
+	"status": "success",
+	"data": null,
+	"message": "Logout successful"
+}
+```
+
+### User Endpoints
+
+1. **Get All Users**
+
+- **Endpoint**: `{{BASE_URL}}/api/v1/user/all`
+- **Method**: `GET`
+- **Description**: Fetch all users on the platform.
+
+- **Response**:
+
+```json
+{
+	"status": "success",
+	"data": [{
+	   "id": "string",
+	   "firstName": "string",
+	   "lastName": "string",
+	   "username": "string",
+	   "phoneNumber": "string",
+	   "email": "string",
+	   "role": "string",
+	   "ipAddress": "string",
+	   "isSuspended": "boolean",
+	   "created_at": "timestamp",
+	},
+   {
+	   "id": "string",
+	   "firstName": "string",
+	   "lastName": "string",
+	   "username": "string",
+	   "phoneNumber": "string",
+	   "email": "string",
+	   "role": "string",
+	   "ipAddress": "string",
+	   "isSuspended": "boolean",
+	   "created_at": "timestamp",
+	}],
+	"message": "Users data retrieved successfully"
+}
+```
+
+### Wallet Endpoints
+
+1. **Fund Wallet**
+
+- **Endpoint**: `{{BASE_URL}}/api/v1/wallet/fund`
+- **Method**: `POST`
+- **Description**: Add funds to your wallet by specifying the amount to deposit. This endpoint increases your wallet balance and records the transaction.
+- **Request Body**:
+
+```json
+{
+	"amount": "number"
+}
+```
+
+- **Response**:
+
+```json
+{
+	"status": "success",
+	"data": [{
+	   "id": "string",
+	   "userId": "string",
+	   "balance": "number",
+	   "walletAddress": "string",
+	   "created_at": "timestamp",
+	}],
+	"message": "Wallet funded successfully"
+}
+```
+
+2. **Wallet to wallet transfer**
+
+- **Endpoint**: `{{BASE_URL}}/api/v1/wallet/transfer`
+- **Method**: `POST`
+- **Description**: Transfer funds from your wallet to another user's wallet by specifying the recipient's wallet address and the amount to transfer. This endpoint deducts the specified amount from your wallet, credits it to the recipient, and records the transaction.
+- **Request Body**:
+
+```json
+{
+	"amount": "number",
+   "walletAddress": "string"
+}
+```
+
+- **Response**:
+
+```json
+{
+	"status": "success",
+	"data": [{
+	   "id": "string",
+	   "userId": "string",
+	   "balance": "number",
+	   "walletAddress": "string",
+	   "created_at": "timestamp",
+	}],
+	"message": "Transfer successful"
+}
+```
+
+3. **Withdraw Funds**
+
+- **Endpoint**: `{{BASE_URL}}/api/v1/wallet/withdraw`
+- **Method**: `POST`
+- **Description**: Withdraw funds from your wallet by specifying the amount. This endpoint deducts the specified amount from your wallet balance and records the withdrawal transaction.
+- **Request Body**:
+
+```json
+{
+	"amount": "number"
+}
+```
+
+- **Response**:
+
+```json
+{
+	"status": "success",
+	"data": [{
+	   "id": "string",
+	   "userId": "string",
+	   "balance": "number",
+	   "walletAddress": "string",
+	   "created_at": "timestamp",
+	}],
+	"message": "Withdrawal successful"
+}
+```
 
 ### Prerequisites
 
