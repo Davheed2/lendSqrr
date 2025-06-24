@@ -6,7 +6,7 @@ export const up = async (knex: Knex): Promise<void> => {
 		table.uuid('id').primary().defaultTo(knex.raw('(UUID())'));
 		table.uuid('senderId').notNullable().references('id').inTable('users').onDelete('RESTRICT');
 		table.uuid('receiverId').notNullable().references('id').inTable('users').onDelete('RESTRICT');
-		table.string('walletAddress').nullable();
+		table.string('walletAddress').notNullable().references('walletAddress').inTable('wallets').onDelete('RESTRICT');
 		table.decimal('amount', 14, 2).notNullable();
 		table.enum('transactionType', Object.values(TransactionType)).notNullable();
 		table.enum('status', Object.values(TransactionStatus)).defaultTo(TransactionStatus.PENDING);
