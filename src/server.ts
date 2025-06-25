@@ -228,19 +228,19 @@ async function shutdown() {
 // 	process.exit(1);
 // });
 
-async function migrate() {
-	try {
-		await knexDb.migrate.latest();
-		console.log('Migrations completed!');
-	} catch (error) {
-		console.error('Migration failed:', error);
-	}
-}
+// async function migrate() {
+// 	try {
+// 		await knexDb.migrate.latest();
+// 		console.log('Migrations completed!');
+// 	} catch (error) {
+// 		console.error('Migration failed:', error);
+// 	}
+// }
 
-migrate().catch((err) => {
-	console.error(err);
-	process.exit(1);
-});
+// migrate().catch((err) => {
+// 	console.error(err);
+// 	process.exit(1);
+// });
 
 // graceful shutdown on SIGINT and SIGTERM
 process.on('SIGINT', shutdown);
