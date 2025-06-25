@@ -9,14 +9,31 @@ export const knexConfig: Knex.Config = {
 		password: ENVIRONMENT.DB.PASSWORD,
 		database: ENVIRONMENT.DB.DATABASE,
 		port: ENVIRONMENT.DB.PORT ? parseInt(ENVIRONMENT.DB.PORT, 10) : 3306,
+		connectTimeout: 60000,
 	},
-	pool: { min: 1, max: 10, idleTimeoutMillis: 30000, propagateCreateError: false },
+	pool: {
+		min: 0,
+		max: 5,
+		idleTimeoutMillis: 10000,
+		propagateCreateError: false,
+		acquireTimeoutMillis: 30000,
+		reapIntervalMillis: 1000,
+	},
 	migrations: {
 		tableName: 'knex_migrations',
 		directory: process.env.NODE_ENV === 'production' ? './migrations' : './migrations',
 		extension: process.env.NODE_ENV === 'production' ? 'js' : 'ts',
 	},
-	acquireConnectionTimeout: 30000,
+	acquireConnectionTimeout: 60000,
+	debug: true,
+	log: {
+		warn(message) {
+			console.warn('Knex Warning:', message);
+		},
+		error(message) {
+			console.error('Knex Error:', message);
+		},
+	},
 };
 
 export const knexDb = knex(knexConfig);
