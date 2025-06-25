@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 ///////////////////////////////////////////////////////////////////////
-import { ENVIRONMENT, connectDb, disconnectDb, knexDb } from '@/common/config';
+import { ENVIRONMENT, connectDb, disconnectDb } from '@/common/config';
 import '@/common/interfaces/request';
 import { logger, stream } from '@/common/utils';
 import { errorHandler } from '@/controllers';
@@ -194,53 +194,6 @@ async function shutdown() {
 	await disconnectDb();
 	process.exit(0);
 }
-
-// async function migrate() {
-// 	try {
-// 		console.log('Starting migrations...');
-// 		console.log('Migration config:', {
-// 			directory: knexDb.client.config.migrations?.directory,
-// 			extension: knexDb.client.config.migrations?.extension,
-// 		});
-
-// 		// Check what migration files exist
-// 		const [batchNo, log] = await knexDb.migrate.latest();
-
-// 		if (log.length === 0) {
-// 			console.log('No new migrations to run');
-// 		} else {
-// 			console.log(`Batch ${batchNo} completed. Migrations run:`, log);
-// 		}
-
-// 		console.log('Migrations completed!');
-// 	} catch (error) {
-// 		console.error('Migration failed:', error);
-// 		// console.error('Error message:', error.message);
-// 		// console.error('Stack trace:', error.stack);
-// 		process.exit(1);
-// 	} finally {
-// 		await knexDb.destroy();
-// 	}
-// }
-
-// migrate().catch((err) => {
-// 	console.error('Top-level error:', err);
-// 	process.exit(1);
-// });
-
-// async function migrate() {
-// 	try {
-// 		await knexDb.migrate.latest();
-// 		console.log('Migrations completed!');
-// 	} catch (error) {
-// 		console.error('Migration failed:', error);
-// 	}
-// }
-
-// migrate().catch((err) => {
-// 	console.error(err);
-// 	process.exit(1);
-// });
 
 // graceful shutdown on SIGINT and SIGTERM
 process.on('SIGINT', shutdown);
