@@ -14,7 +14,7 @@ const knexConfig: Knex.Config = {
 	pool: { min: 2, max: 10 },
 		migrations: {
 		tableName: 'knex_migrations',
-		directory: ENVIRONMENT.APP.ENV ? './migrations' : './migrations',
+		directory: ENVIRONMENT.APP.ENV ? './src/migrations' : './migrations',
 		extension: ENVIRONMENT.APP.ENV ? 'js' : 'ts',
 	},
 	acquireConnectionTimeout: 3000
