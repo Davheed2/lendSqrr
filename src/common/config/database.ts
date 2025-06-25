@@ -1,8 +1,6 @@
 import knex, { Knex } from 'knex';
 import { ENVIRONMENT } from './environment';
-import path from 'path';
 
-const migrationsDir = path.join(__dirname, 'migrations');
 const knexConfig: Knex.Config = {
 	client: 'mysql2',
 	connection: {
@@ -11,13 +9,13 @@ const knexConfig: Knex.Config = {
 		password: ENVIRONMENT.DB.PASSWORD,
 		database: ENVIRONMENT.DB.DATABASE,
 		port:  ENVIRONMENT.DB.PORT ? parseInt(ENVIRONMENT.DB.PORT, 10) : 3306,
-		...(ENVIRONMENT.APP.ENV === 'production' ? { ssl: { rejectUnauthorized: true } } : {}),
+		//...(ENVIRONMENT.APP.ENV === 'production' ? { ssl: { rejectUnauthorized: true } } : {}),
 	},
 	pool: { min: 2, max: 10 },
 		migrations: {
 		tableName: 'knex_migrations',
-		directory: migrationsDir,
-		extension: ENVIRONMENT.APP.ENV ? 'js' : 'ts',
+		directory: './migrations',
+		extension: ENVIRONMENT.APP.ENV === 'production' ? 'js' : 'ts',
 	},
 	acquireConnectionTimeout: 3000
 };
