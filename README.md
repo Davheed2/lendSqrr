@@ -73,17 +73,17 @@ Use tools like Postman or Insomnia to test the API.
 {
 	"status": "success",
 	"data": [{
-      "id": "string",
-		"email": "string",
+       "id": "string",
+	   "email": "string",
 	   "password": "string",
 	   "firstName": "string",
 	   "lastName": "string",
 	   "username": "string",
 	   "phoneNumber": "string",
-      "role": "string",
-      "ipAddress": "string",
+       "role": "string",
+       "ipAddress": "string",
 	   "isSuspended": "boolean",
-      "created_at": "timestamp"
+       "created_at": "timestamp"
 	}]
 	"message": "User created successfully"
 }
@@ -209,7 +209,7 @@ Use tools like Postman or Insomnia to test the API.
 ```json
 {
 	"amount": "number",
-   "walletAddress": "string"
+    "walletAddress": "string"
 }
 ```
 
