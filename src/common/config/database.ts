@@ -9,10 +9,8 @@ export const knexConfig: Knex.Config = {
 		password: ENVIRONMENT.DB.PASSWORD,
 		database: ENVIRONMENT.DB.DATABASE,
 		port: ENVIRONMENT.DB.PORT ? parseInt(ENVIRONMENT.DB.PORT, 10) : 3306,
-		//ssl: ENVIRONMENT.DB.SSL ? { rejectUnauthorized: false } : false,
-		//...(ENVIRONMENT.APP.ENV === 'production' ? { ssl: { rejectUnauthorized: true } } : {}),
 	},
-	pool: { min: 2, max: 20, idleTimeoutMillis: 600000, propagateCreateError: false },
+	pool: { min: 1, max: 10, idleTimeoutMillis: 600000, propagateCreateError: false },
 	migrations: {
 		tableName: 'knex_migrations',
 		directory: process.env.NODE_ENV === 'production' ? './migrations' : './migrations',
