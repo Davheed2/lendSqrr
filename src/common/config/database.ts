@@ -1,39 +1,21 @@
 import knex, { Knex } from 'knex';
 import { ENVIRONMENT } from './environment';
 
-export const knexConfig: Knex.Config = {
+const knexConfig: Knex.Config = {
 	client: 'mysql2',
 	connection: {
 		host: ENVIRONMENT.DB.HOST,
 		user: ENVIRONMENT.DB.USER,
 		password: ENVIRONMENT.DB.PASSWORD,
 		database: ENVIRONMENT.DB.DATABASE,
-		port: ENVIRONMENT.DB.PORT ? parseInt(ENVIRONMENT.DB.PORT, 10) : 3306,
-		connectTimeout: 60000,
+		port:  ENVIRONMENT.DB.PORT ? parseInt(ENVIRONMENT.DB.PORT, 10) : 3306,
 	},
-	pool: {
-		min: 0,
-		max: 5,
-		idleTimeoutMillis: 10000,
-		propagateCreateError: false,
-		acquireTimeoutMillis: 30000,
-		reapIntervalMillis: 1000,
-	},
+	pool: { min: 2, max: 10 },
 	migrations: {
 		tableName: 'knex_migrations',
-		directory: process.env.NODE_ENV === 'production' ? './migrations' : './migrations',
-		extension: process.env.NODE_ENV === 'production' ? 'js' : 'ts',
+		directory: './src/migrations', 
 	},
-	acquireConnectionTimeout: 60000,
-	debug: true,
-	log: {
-		warn(message) {
-			console.warn('Knex Warning:', message);
-		},
-		error(message) {
-			console.error('Knex Error:', message);
-		},
-	},
+	acquireConnectionTimeout: 3000
 };
 
 export const knexDb = knex(knexConfig);
