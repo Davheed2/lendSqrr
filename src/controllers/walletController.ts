@@ -5,6 +5,21 @@ import { catchAsync } from '@/middlewares';
 import { walletRepository } from '@/repository';
 
 export class WalletController {
+	getWalletDetails = catchAsync(async (req: Request, res: Response) => {
+		const { user } = req;
+
+		if (!user) {
+			throw new AppError('User not found', 404);
+		}
+
+		const wallet = await walletRepository.findByUserId(user.id);
+		if (!wallet) {
+			throw new AppError('Wallet not found', 404);
+		}
+
+		return AppResponse(res, 200, toJSON([wallet]), 'Wallet details retrieved successfully');
+	});
+
 	fundWallet = catchAsync(async (req: Request, res: Response) => {
 		const { amount } = req.body;
 		const { user } = req;

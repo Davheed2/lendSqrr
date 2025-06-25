@@ -164,18 +164,6 @@ Use tools like Postman or Insomnia to test the API.
 	   "ipAddress": "string",
 	   "isSuspended": "boolean",
 	   "created_at": "timestamp",
-	},
-   {
-	   "id": "string",
-	   "firstName": "string",
-	   "lastName": "string",
-	   "username": "string",
-	   "phoneNumber": "string",
-	   "email": "string",
-	   "role": "string",
-	   "ipAddress": "string",
-	   "isSuspended": "boolean",
-	   "created_at": "timestamp",
 	}],
 	"message": "Users data retrieved successfully"
 }
@@ -203,7 +191,6 @@ Use tools like Postman or Insomnia to test the API.
 	"status": "success",
 	"data": [{
 	   "id": "string",
-	   "userId": "string",
 	   "balance": "number",
 	   "walletAddress": "string",
 	   "created_at": "timestamp",
@@ -233,7 +220,6 @@ Use tools like Postman or Insomnia to test the API.
 	"status": "success",
 	"data": [{
 	   "id": "string",
-	   "userId": "string",
 	   "balance": "number",
 	   "walletAddress": "string",
 	   "created_at": "timestamp",
@@ -262,7 +248,6 @@ Use tools like Postman or Insomnia to test the API.
 	"status": "success",
 	"data": [{
 	   "id": "string",
-	   "userId": "string",
 	   "balance": "number",
 	   "walletAddress": "string",
 	   "created_at": "timestamp",

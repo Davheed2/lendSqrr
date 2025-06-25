@@ -5,6 +5,7 @@ import express from 'express';
 const router = express.Router();
 router.use(protect);
 
+router.get('/', walletController.getWalletDetails);
 router.post('/fund', walletController.fundWallet);
 router.post('/transfer', walletController.transferMoneyToUser);
 router.post('/withdraw', walletController.withdrawFunds);
