@@ -12,9 +12,10 @@ const knexConfig: Knex.Config = {
 		...(ENVIRONMENT.APP.ENV === 'production' ? { ssl: { rejectUnauthorized: true } } : {}),
 	},
 	pool: { min: 2, max: 10 },
-	migrations: {
+		migrations: {
 		tableName: 'knex_migrations',
-		directory: './src/migrations', 
+		directory: ENVIRONMENT.APP.ENV ? './dist/migrations' : './migrations',
+		extension: ENVIRONMENT.APP.ENV ? 'js' : 'ts',
 	},
 	acquireConnectionTimeout: 3000
 };

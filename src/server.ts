@@ -197,15 +197,34 @@ async function shutdown() {
 
 async function migrate() {
 	try {
-		await knexDb.migrate.latest();
+		console.log('Starting migrations...');
+		console.log('Migration config:', {
+			directory: knexDb.client.config.migrations?.directory,
+			extension: knexDb.client.config.migrations?.extension,
+		});
+
+		// Check what migration files exist
+		const [batchNo, log] = await knexDb.migrate.latest();
+
+		if (log.length === 0) {
+			console.log('No new migrations to run');
+		} else {
+			console.log(`Batch ${batchNo} completed. Migrations run:`, log);
+		}
+
 		console.log('Migrations completed!');
 	} catch (error) {
 		console.error('Migration failed:', error);
+		// console.error('Error message:', error.message);
+		// console.error('Stack trace:', error.stack);
+		process.exit(1);
+	} finally {
+		await knexDb.destroy();
 	}
 }
 
 migrate().catch((err) => {
-	console.error(err);
+	console.error('Top-level error:', err);
 	process.exit(1);
 });
 
