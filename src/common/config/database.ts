@@ -10,13 +10,13 @@ export const knexConfig: Knex.Config = {
 		database: ENVIRONMENT.DB.DATABASE,
 		port: ENVIRONMENT.DB.PORT ? parseInt(ENVIRONMENT.DB.PORT, 10) : 3306,
 	},
-	pool: { min: 1, max: 10, idleTimeoutMillis: 600000, propagateCreateError: false },
+	pool: { min: 1, max: 10, idleTimeoutMillis: 30000, propagateCreateError: false },
 	migrations: {
 		tableName: 'knex_migrations',
 		directory: process.env.NODE_ENV === 'production' ? './migrations' : './migrations',
 		extension: process.env.NODE_ENV === 'production' ? 'js' : 'ts',
 	},
-	acquireConnectionTimeout: 5000,
+	acquireConnectionTimeout: 30000,
 };
 
 export const knexDb = knex(knexConfig);
