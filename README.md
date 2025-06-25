@@ -47,6 +47,8 @@ The Project technologies used:
 
 Use tools like Postman or Insomnia to test the API.
 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://lunar-escape-696354.postman.co/workspace/Team-Workspace~04723fed-3d9c-4e25-8c98-32862ff5ce2e/collection/20658689-a999f6ea-868c-4bc6-b5a6-a63efa69b5fa?action=share&creator=20658689)
+
 ### Authentication Endpoints
 
 1. **Register a User**
