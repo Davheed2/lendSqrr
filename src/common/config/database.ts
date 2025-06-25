@@ -1,6 +1,8 @@
 import knex, { Knex } from 'knex';
 import { ENVIRONMENT } from './environment';
+import path from 'path';
 
+const migrationsDir = path.join(__dirname, 'migrations');
 const knexConfig: Knex.Config = {
 	client: 'mysql2',
 	connection: {
@@ -14,7 +16,7 @@ const knexConfig: Knex.Config = {
 	pool: { min: 2, max: 10 },
 		migrations: {
 		tableName: 'knex_migrations',
-		directory: ENVIRONMENT.APP.ENV ? './src/migrations' : './migrations',
+		directory: migrationsDir,
 		extension: ENVIRONMENT.APP.ENV ? 'js' : 'ts',
 	},
 	acquireConnectionTimeout: 3000
