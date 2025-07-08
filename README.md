@@ -86,7 +86,7 @@ Use tools like Postman or Insomnia to test the API.
        "ipAddress": "string",
 	   "isSuspended": "boolean",
        "created_at": "timestamp"
-	}]
+	}],
 	"message": "User created successfully"
 }
 ```
