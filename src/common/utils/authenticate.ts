@@ -5,7 +5,7 @@ import AppError from './appError';
 import { generateAccessToken, verifyToken } from './helper';
 import { AuthenticateResult } from '../types';
 import { userRepository } from '@/repository';
-import { checkBlacklistedUser } from '@/api';
+import { checkBlacklistedUser } from '@/middlewares';
 
 export const authenticate = async ({
 	accessToken,
@@ -52,7 +52,7 @@ export const authenticate = async ({
 		if ((error instanceof jwt.JsonWebTokenError || error instanceof jwt.TokenExpiredError) && refreshToken) {
 			try {
 				return await handleTokenRefresh();
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			} catch (refreshError) {
 				throw new AppError('Session expired, please log in again', 401);
 			}
