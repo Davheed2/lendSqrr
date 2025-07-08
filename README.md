@@ -82,9 +82,11 @@ Use tools like Postman or Insomnia to test the API.
 	   "lastName": "string",
 	   "username": "string",
 	   "phoneNumber": "string",
+
        "role": "string",
        "ipAddress": "string",
 	   "isSuspended": "boolean",
+	   
        "created_at": "timestamp"
 	}],
 	"message": "User created successfully"
