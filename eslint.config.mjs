@@ -3,13 +3,15 @@ import tseslint from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
 
 export default [
+	{
+		ignores: ['node_modules', 'build', 'dist', '**/__tests__/**'], 
+	},
 	js.configs.recommended,
 	tseslint.configs.eslintRecommended,
 	...tseslint.configs.recommended,
 
 	{
 		files: ['**/*.ts', '**/*.tsx'],
-		ignores: ['node_modules', 'build', 'dist'],
 		plugins: {
 			'@typescript-eslint': tseslint.plugin,
 		},
