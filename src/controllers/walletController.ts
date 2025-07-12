@@ -9,7 +9,7 @@ export class WalletController {
 		const { user } = req;
 
 		if (!user) {
-			throw new AppError('User not found', 404);
+			throw new AppError('Please login again', 404);
 		}
 
 		const wallet = await walletRepository.findByUserId(user.id);
@@ -25,7 +25,7 @@ export class WalletController {
 		const { user } = req;
 
 		if (!user) {
-			throw new AppError('User not found', 404);
+			throw new AppError('Please login again', 404);
 		}
 		if (!amount) {
 			throw new AppError('Amount is required to fund the wallet', 400);
@@ -48,7 +48,7 @@ export class WalletController {
 		const { user } = req;
 
 		if (!user) {
-			throw new AppError('User not found', 404);
+			throw new AppError('Please login again', 404);
 		}
 		if (!walletAddress || !amount) {
 			throw new AppError('Wallet address and amount are required', 400);
@@ -72,7 +72,7 @@ export class WalletController {
 		const { user } = req;
 
 		if (!user) {
-			throw new AppError('User not found', 404);
+			throw new AppError('Please login again', 404);
 		}
 		if (!amount) {
 			throw new AppError('Amount is required for withdrawal', 400);
